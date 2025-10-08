@@ -22,7 +22,7 @@ export default function ProfileRedirect() {
             return
         }
 
-        router.push(`/@${session.user.handle}`)
+        router.push(`/@${(session.user as any).handle}`)
     }, [session, router])
 
     return <Loading />

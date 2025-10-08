@@ -59,7 +59,7 @@ export default function CreatePostCard() {
         <Card>
             <CardHeader>
                 <CardTitle>
-                    <Link href={`/@${session.user.handle}`} className="override flex items-center gap-1 w-max">
+                    <Link href={`/@${(session.user as any).handle}`} className="override flex items-center gap-1 w-max">
                         <img src={session.user.image ?? DefaultProfile.src} alt="#" className="h-5 aspect-square rounded-md" />
                         <span>{session.user.name ?? "Anonymous"}</span>
                     </Link>
