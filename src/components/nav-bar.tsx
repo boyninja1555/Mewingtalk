@@ -4,8 +4,10 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
 import { redirectSignIn } from "@/components/sign-in"
 import { redirectSignUp } from "@/components/sign-up"
+import { MdMenu } from "react-icons/md"
 import { signOut, useSession } from "@/lib/auth-client"
 import SiteLogo from "@/assets/icon.png"
 
@@ -49,7 +51,7 @@ export default function NavBar({
                     <span>Mewingtalk</span>
                 </Link>
 
-                <ul className="flex items-center gap-4">
+                <ul className="hidden md:flex items-center gap-4">
                     <li><Link href="/">Home</Link></li>
 
                     {!session && (
@@ -66,6 +68,40 @@ export default function NavBar({
                         </>
                     )}
                 </ul>
+
+                <div className="block md:hidden">
+                    <Drawer>
+                        <DrawerTrigger asChild>
+                            <Button>
+                                <MdMenu />
+                            </Button>
+                        </DrawerTrigger>
+                        <DrawerContent>
+                            <DrawerHeader>
+                                <DrawerTitle>Pages</DrawerTitle>
+                            </DrawerHeader>
+                            <DrawerFooter>
+                                <ul className="flex items-center justify-center gap-4">
+                                    <li><Link href="/">Home</Link></li>
+
+                                    {!session && (
+                                        <>
+                                            <li><button onClick={() => redirectSignIn(router, {})} className="hyperlink">Sign in</button></li>
+                                            <li><button onClick={() => redirectSignUp(router, {})} className="hyperlink">Sign up</button></li>
+                                        </>
+                                    )}
+
+                                    {session && (
+                                        <>
+                                            <li><Link href="/profile">My profile</Link></li>
+                                            <li><Button onClick={() => signOut()}>Sign out</Button></li>
+                                        </>
+                                    )}
+                                </ul>
+                            </DrawerFooter>
+                        </DrawerContent>
+                    </Drawer>
+                </div>
             </div>
 
             <div className="pt-16 w-full">
