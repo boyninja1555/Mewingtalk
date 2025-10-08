@@ -19,6 +19,7 @@ export default function NavBar({
     const router = useRouter()
     const { data: session, } = useSession()
     const [scroll, setScroll] = useState(0)
+    const [open, setOpen] = useState(false)
     const navRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -70,7 +71,7 @@ export default function NavBar({
                 </ul>
 
                 <div className="block md:hidden">
-                    <Drawer>
+                    <Drawer open={open} onOpenChange={setOpen}>
                         <DrawerTrigger asChild>
                             <Button>
                                 <MdMenu />
@@ -81,7 +82,7 @@ export default function NavBar({
                                 <DrawerTitle>Pages</DrawerTitle>
                             </DrawerHeader>
                             <DrawerFooter>
-                                <ul className="flex items-center justify-center gap-4">
+                                <ul onClick={() => setOpen(false)} className="flex items-center justify-center gap-4">
                                     <li><Link href="/">Home</Link></li>
 
                                     {!session && (
