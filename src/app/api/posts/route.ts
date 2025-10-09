@@ -31,7 +31,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const {
         content,
-    } = await request.json()
+        imageUrl,
+    } = await request.json() as {
+        content?: string
+        imageUrl?: string
+    }
     const responder = apiResponder("create-post")
     const session = await auth.api.getSession({
         headers: await headers(),
@@ -43,10 +47,17 @@ export async function POST(request: NextRequest) {
             message: "Unauthorized",
         }, 401)
 
+    if (!content || !imageUrl)
+        responder.apiResponse({
+            success: false,
+            message: "Invalid request body",
+        }, 400)
+
     const post = await prisma.post.create({
         data: {
             authorId: session.user.id,
             content,
+            imageUrl,
         },
     })
 

@@ -5,7 +5,9 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { formatDate, formatTime } from "@/lib/date-time"
@@ -16,6 +18,7 @@ export default function CreatePostCard() {
     const router = useRouter()
     const { data: session, isPending, } = useSession()
     const [post, setPost] = useState("")
+    const [pic, setPic] = useState("")
     const [error, setError] = useState<string | null>(null)
 
     if (!session || isPending)
@@ -31,8 +34,8 @@ export default function CreatePostCard() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    authorId: session?.user.id,
                     content: post,
+                    imageUrl: pic.trim() == "" ? null : pic.trim(),
                 }),
             })
 
@@ -49,6 +52,7 @@ export default function CreatePostCard() {
                 description: `${formatDate(newPost.createdAt)} — ${formatTime(newPost.createdAt)}`,
             })
             setPost("")
+            setPic("")
             router.refresh()
         } catch (ex) {
             setError(ex instanceof Error ? ex.message : String(ex))
@@ -68,13 +72,22 @@ export default function CreatePostCard() {
                     <span>Date &mdash; Time</span>
                     {error && <span className="text-destructive">{error}</span>}
                 </CardDescription>
-                <CardAction>
+                <CardAction className="flex gap-2">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button variant="outline">Attach Pic</Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80">
+                            <p className="mb-2">For now, we cannot afford your pics. However, you can paste an image link, which includes GIFs from <a href="https://giphy.com">Giphy</a> and <a href="https://tenor.com">Tenor</a>.</p>
+                            <Input value={pic} onChange={(ev) => setPic(ev.target.value.trim())} placeholder="https://media1.tenor.com/m/XXX/XXX.gif" />
+                        </PopoverContent>
+                    </Popover>
                     <Button onClick={createPost}>Post</Button>
                 </CardAction>
             </CardHeader>
             <CardContent>
                 <Textarea value={post} onChange={(ev) => setPost(ev.target.value)} />
-                {/* <img src={post.imageUrl ?? "null"} alt="Attachment" className="mt-2 text-muted-foreground border rounded-md w-full" /> */}
+                {pic && <img src={pic} alt="Attachment" className="mt-2 text-muted-foreground border rounded-md w-full" />}
             </CardContent>
         </Card>
     )

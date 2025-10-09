@@ -38,7 +38,12 @@ export default async function PostCard({
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <p>{post.content}</p>
+                <p>
+                    {post.content.split(" ").map((word: string) => (word.startsWith("http://") || word.startsWith("https://"))
+                        ? <a href={word} target="_blank">{word} </a>
+                        : `${word} `
+                    )}
+                </p>
 
                 {post.imageUrl && (
                     <img src={post.imageUrl ?? "null"} alt="Attachment" className="mt-2 text-muted-foreground border rounded-md w-full" />
