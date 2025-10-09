@@ -64,7 +64,7 @@ export default function Home() {
 				<CardContent className="flex flex-col gap-2">
 					<CreatePostCard />
 
-					{posts.map((post: Post) => <PostCardClient key={post.id} post={post} />)}
+					{posts.map((post: Post) => <PostCardClient key={post.id} post={post} linkToPost />)}
 				</CardContent>
 			</Card>
 		</div>

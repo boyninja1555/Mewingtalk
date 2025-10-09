@@ -3,16 +3,20 @@
 import type { Post } from "@/generated/prisma"
 import Link from "next/link"
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { PostCardClient1 } from "./post-clients"
+import { PostCardClient1, PostCardClient2, PostCardClient3 } from "./post-clients"
 import { formatDate, formatTime } from "@/lib/date-time"
 import prisma from "@/lib/prisma"
 import DefaultProfile from "@/assets/oauth/default.svg"
 
 export default async function PostCard({
     post,
+    linkToPost,
+    canShare,
     canDelete,
 }: {
     post: Post
+    linkToPost?: true
+    canShare?: true
     canDelete?: true
 }) {
     const author = await prisma.user.findFirst({
@@ -33,14 +37,16 @@ export default async function PostCard({
                 <CardDescription>
                     {formatDate(post.createdAt)} &mdash; {formatTime(post.createdAt)}
                 </CardDescription>
-                <CardAction>
+                <CardAction className="flex gap-2">
+                    {linkToPost && <PostCardClient2 post={post} />}
+                    {canShare && <PostCardClient3 post={post} />}
                     {canDelete && <PostCardClient1 post={post} />}
                 </CardAction>
             </CardHeader>
             <CardContent>
                 <p>
-                    {post.content.split(" ").map((word: string) => (word.startsWith("http://") || word.startsWith("https://"))
-                        ? <a href={word} target="_blank">{word} </a>
+                    {post.content.split(" ").map((word: string, i: number) => (word.startsWith("http://") || word.startsWith("https://"))
+                        ? <a key={i} href={word} target="_blank">{word} </a>
                         : `${word} `
                     )}
                 </p>

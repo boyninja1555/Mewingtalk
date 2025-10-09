@@ -5,18 +5,24 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { formatDate, formatTime } from "@/lib/date-time"
 import { useSession } from "@/lib/auth-client"
-import { MdOutlineDelete } from "react-icons/md"
+import { MdCheck, MdContentCopy, MdIosShare, MdOutlineDelete } from "react-icons/md"
 import DefaultProfile from "@/assets/oauth/default.svg"
 
 export function PostCardClient({
     post,
+    linkToPost,
+    canShare,
     canDelete,
 }: {
     post: Post
+    linkToPost?: true
+    canShare?: true
     canDelete?: true
 }) {
     const [author, setAuthor] = useState<User | null>(null)
@@ -65,14 +71,16 @@ export function PostCardClient({
                     {formatDate(post.createdAt)} &mdash; {formatTime(post.createdAt)}
                     {error && <span className="text-destructive">{error}</span>}
                 </CardDescription>
-                <CardAction>
+                <CardAction className="flex gap-2">
+                    {linkToPost && <PostCardClient2 post={post} />}
+                    {canShare && <PostCardClient3 post={post} />}
                     {canDelete && <PostCardClient1 post={post} />}
                 </CardAction>
             </CardHeader>
             <CardContent>
                 <p>
-                    {post.content.split(" ").map((word: string) => (word.startsWith("http://") || word.startsWith("https://"))
-                        ? <a href={word} target="_blank">{word} </a>
+                    {post.content.split(" ").map((word: string, i: number) => (word.startsWith("http://") || word.startsWith("https://"))
+                        ? <a key={i} href={word} target="_blank">{word} </a>
                         : `${word} `
                     )}
                 </p>
@@ -133,5 +141,70 @@ export function PostCardClient1({
         <Button variant="destructive" onClick={deletePost}>
             <MdOutlineDelete />
         </Button>
+    )
+}
+
+export function PostCardClient2({
+    post,
+}: {
+    post: Post
+}) {
+    const router = useRouter()
+
+    function visitPost() {
+        router.push(`/post/${post.id}`)
+    }
+
+    return (
+        <Button variant="outline" onClick={visitPost}>
+            Visit
+        </Button>
+    )
+}
+
+export function PostCardClient3({
+    post,
+}: {
+    post: Post
+}) {
+    const [publicUrl, setPublicUrl] = useState("")
+    const [copied, setCopied] = useState(false)
+
+    useEffect(() => {
+        setPublicUrl(`${window.location.origin}/post/${post.id}`)
+    }, [])
+
+    function copy() {
+        navigator.clipboard.writeText(publicUrl)
+
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1000)
+    }
+
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="outline">
+                    <MdIosShare />
+                    Share
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Share post</DialogTitle>
+                    <DialogDescription>Copy the link below to share this post.</DialogDescription>
+                </DialogHeader>
+                <Input value={publicUrl} readOnly />
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="outline">Close</Button>
+                    </DialogClose>
+                    <Button onClick={copy}>
+                        {copied ? <MdCheck /> : <MdContentCopy />}
+                        Copy
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     )
 }

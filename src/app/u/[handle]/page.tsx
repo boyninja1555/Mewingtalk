@@ -74,7 +74,7 @@ export default async function Profile({
                 <CardContent className="flex flex-col gap-2">
                     <ProfileClient1 profileUser={user} />
 
-                    {posts.map((post) => <PostCard key={post.id} post={post} canDelete />)}
+                    {posts.map((post) => <PostCard key={post.id} post={post} linkToPost canDelete />)}
                 </CardContent>
             </Card>
         </div>
