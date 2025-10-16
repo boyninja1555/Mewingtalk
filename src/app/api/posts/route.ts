@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
             message: "Unauthorized",
         }, 401)
 
-    if (!content || !imageUrl)
+    if (!content || content.trim() == "" || !imageUrl)
         responder.apiResponse({
             success: false,
             message: "Invalid request body",

@@ -26,7 +26,14 @@ export default function CreatePostCard() {
 
     async function createPost() {
         try {
+            if (post.trim() == "")
+                throw new Error("Missing post content")
+
+            const localPost = { post, }.post
+            const localPic = { pic, }.pic
             setError(null)
+            setPost("")
+            setPic("")
 
             const response = await fetch("/api/posts", {
                 method: "POST",
@@ -34,8 +41,8 @@ export default function CreatePostCard() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    content: post,
-                    imageUrl: pic.trim() == "" ? null : pic.trim(),
+                    content: localPost,
+                    imageUrl: localPic.trim() == "" ? null : localPic.trim(),
                 }),
             })
 
@@ -51,8 +58,6 @@ export default function CreatePostCard() {
             toast("Post created", {
                 description: `${formatDate(newPost.createdAt)} — ${formatTime(newPost.createdAt)}`,
             })
-            setPost("")
-            setPic("")
             router.refresh()
         } catch (ex) {
             setError(ex instanceof Error ? ex.message : String(ex))
@@ -86,7 +91,7 @@ export default function CreatePostCard() {
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <Textarea value={post} onChange={(ev) => setPost(ev.target.value)} />
+                <Textarea value={post} onChange={(ev) => setPost(ev.target.value)} required />
                 {pic && <img src={pic} alt="Attachment" className="mt-2 text-muted-foreground border rounded-md w-full" />}
             </CardContent>
         </Card>
