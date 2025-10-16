@@ -18,35 +18,11 @@ export default function NavBar({
 }) {
     const router = useRouter()
     const { data: session, } = useSession()
-    const [scroll, setScroll] = useState(0)
     const [open, setOpen] = useState(false)
-    const navRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        function handleScroll() {
-            setScroll(window.scrollY)
-        }
-
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
-
-    useEffect(() => {
-        if (!navRef.current)
-            return
-
-        if (scroll > 0) {
-            navRef.current.classList.remove("bg-secondary")
-            navRef.current.classList.add("bg-transparent")
-        } else {
-            navRef.current.classList.remove("bg-transparent")
-            navRef.current.classList.add("bg-secondary")
-        }
-    }, [scroll, navRef])
 
     return (
         <>
-            <div ref={navRef} className="flex items-center justify-between px-10 bg-secondary backdrop-blur-sm transition-colors duration-300 border-b w-full h-16 top-0 left-0 fixed">
+            <div className="flex items-center justify-between px-10 backdrop-blur-md border-b w-full h-16 top-0 left-0 fixed z-50">
                 <Link href="#" className="override flex items-center gap-2 text-xl font-semibold">
                     <img src={SiteLogo.src} alt="#" className="h-8 aspect-square" />
                     <span>Mewingtalk</span>
