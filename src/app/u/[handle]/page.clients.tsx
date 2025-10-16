@@ -8,6 +8,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { MdCheck, MdContentCopy, MdIosShare } from "react-icons/md"
 import { updateUser, useSession } from "@/lib/auth-client"
 
 export function ProfileClient1({
@@ -122,6 +123,53 @@ export function ProfileClient2({
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
                     <Button onClick={handleSave}>Save</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
+export function ProfileClient3({
+    profileUser,
+}: {
+    profileUser: User
+}) {
+    const [publicUrl, setPublicUrl] = useState("")
+    const [copied, setCopied] = useState(false)
+
+    useEffect(() => {
+        setPublicUrl(`${window.location.origin}/@${profileUser.handle}`)
+    }, [])
+
+    function copy() {
+        navigator.clipboard.writeText(publicUrl)
+
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1000)
+    }
+
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="outline">
+                    <MdIosShare />
+                    Share
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Share post</DialogTitle>
+                    <DialogDescription>Copy the link below to share this post.</DialogDescription>
+                </DialogHeader>
+                <Input value={publicUrl} readOnly />
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="outline">Close</Button>
+                    </DialogClose>
+                    <Button onClick={copy}>
+                        {copied ? <MdCheck /> : <MdContentCopy />}
+                        Copy
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
