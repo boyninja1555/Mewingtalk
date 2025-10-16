@@ -162,6 +162,7 @@ export default function SignInCard({
                                 email: ev.target.value,
                             }))}
                             placeholder="johndoe@example.com"
+                            required
                         />
                     </div>
 
@@ -177,6 +178,7 @@ export default function SignInCard({
                                 password: ev.target.value,
                             }))}
                             placeholder="***"
+                            required
                         />
                     </div>
                 </div>

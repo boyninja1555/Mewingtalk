@@ -3,8 +3,8 @@
 import type { Metadata } from "next"
 import Loading from "@/components/loading"
 import PostCard from "@/components/post"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ProfileClient1 } from "./page.clients"
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ProfileClient1, ProfileClient2 } from "./page.clients"
 import { formatDate } from "@/lib/date-time"
 import prisma from "@/lib/prisma"
 import DefaultProfile from "@/assets/oauth/default.svg"
@@ -70,6 +70,9 @@ export default async function Profile({
                     <CardDescription>
                         @{user.handle} &mdash; {formatDate(user.createdAt)}
                     </CardDescription>
+                    <CardAction>
+                        <ProfileClient2 profileUser={user} />
+                    </CardAction>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2">
                     <ProfileClient1 profileUser={user} />

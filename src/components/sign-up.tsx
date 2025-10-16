@@ -163,6 +163,7 @@ export default function SignUpCard({
                                 name: ev.target.value,
                             }))}
                             placeholder="John Doe"
+                            required
                         />
                     </div>
 
@@ -177,6 +178,7 @@ export default function SignUpCard({
                                 handle: ev.target.value,
                             }))}
                             placeholder="JohnDoe"
+                            required
                         />
                     </div>
 
@@ -192,6 +194,7 @@ export default function SignUpCard({
                                 email: ev.target.value,
                             }))}
                             placeholder="johndoe@example.com"
+                            required
                         />
                     </div>
 
@@ -207,6 +210,7 @@ export default function SignUpCard({
                                 password: ev.target.value,
                             }))}
                             placeholder="***"
+                            required
                         />
                     </div>
                 </div>

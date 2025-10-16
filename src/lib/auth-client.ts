@@ -5,4 +5,5 @@ export const {
     signUp,
     signOut,
     useSession,
+    updateUser,
 } = createAuthClient()

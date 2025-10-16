@@ -78,7 +78,7 @@ export function PostCardClient({
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <p>
+                <p className="wrap-anywhere">
                     {post.content.split(" ").map((word: string, i: number) => (word.startsWith("http://") || word.startsWith("https://"))
                         ? <a key={i} href={word} target="_blank">{word} </a>
                         : `${word} `

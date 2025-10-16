@@ -12,7 +12,10 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { formatDate, formatTime } from "@/lib/date-time"
 import { useSession } from "@/lib/auth-client"
+import { cn } from "@/lib/utils"
 import DefaultProfile from "@/assets/oauth/default.svg"
+
+const MAX_POST_LENGTH = 200
 
 export default function CreatePostCard() {
     const router = useRouter()
@@ -29,6 +32,9 @@ export default function CreatePostCard() {
             if (post.trim() == "")
                 throw new Error("Missing post content")
 
+            if (post.trim().length > MAX_POST_LENGTH)
+                throw new Error("Post too long")
+
             const localPost = { post, }.post
             const localPic = { pic, }.pic
             setError(null)
@@ -41,7 +47,7 @@ export default function CreatePostCard() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    content: localPost,
+                    content: localPost.trim(),
                     imageUrl: localPic.trim() == "" ? null : localPic.trim(),
                 }),
             })
@@ -74,7 +80,7 @@ export default function CreatePostCard() {
                     </Link>
                 </CardTitle>
                 <CardDescription className="flex justify-between">
-                    <span>Date &mdash; Time</span>
+                    <span className={cn(post.trim().length > MAX_POST_LENGTH && "text-destructive")}>{post.trim().length}/{MAX_POST_LENGTH}</span>
                     {error && <span className="text-destructive">{error}</span>}
                 </CardDescription>
                 <CardAction className="flex gap-2">
