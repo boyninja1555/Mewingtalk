@@ -98,6 +98,7 @@ export default function CreatePostCard() {
             </CardHeader>
             <CardContent>
                 <Textarea value={post} onChange={(ev) => setPost(ev.target.value)} required />
+                <span className="mt-2 text-muted-foreground text-sm md:text-center">What you post is your responsibility, but we can do whatever the fuck we want with it.</span>
                 {pic && <img src={pic} alt="Attachment" className="mt-2 text-muted-foreground border rounded-md w-full" />}
             </CardContent>
         </Card>

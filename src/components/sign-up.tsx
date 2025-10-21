@@ -141,6 +141,8 @@ export default function SignUpCard({
                                 Create an account on Mewingtalk.
                             </>
                         )}
+
+                        <> By creating an account, you agree to be liable for whatever you do, such as posting and potential conflicts with your profile details. However, we can do whatever the fuck we want with your posts and details, especially if the local government has issues with your content.</>
                     </span>
 
                     {error && (
