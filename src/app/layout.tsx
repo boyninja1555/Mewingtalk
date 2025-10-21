@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Roboto } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/sonner"
 import NavBar from "@/components/nav-bar"
 import "@/styles/global.css"
@@ -27,6 +28,7 @@ export default function RootLayout({
 			<body
 				className={`${roboto.variable} antialiased`}
 			>
+				<Analytics />
 				<NavBar>
 					{children}
 				</NavBar>
