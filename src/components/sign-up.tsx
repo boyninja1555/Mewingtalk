@@ -162,7 +162,7 @@ export default function SignUpCard({
                             value={formValues.name}
                             onChange={(ev) => setFormValues((prev) => ({
                                 ...prev,
-                                name: ev.target.value,
+                                name: ev.target.value.trim().substring(0, 50).trim(),
                             }))}
                             placeholder="John Doe"
                             required
@@ -177,7 +177,7 @@ export default function SignUpCard({
                             value={formValues.handle}
                             onChange={(ev) => setFormValues((prev) => ({
                                 ...prev,
-                                handle: ev.target.value,
+                                handle: ev.target.value.trim().replace(/\W/g, "").substring(0, 50).trim(),
                             }))}
                             placeholder="JohnDoe"
                             required
@@ -193,7 +193,7 @@ export default function SignUpCard({
                             value={formValues.email}
                             onChange={(ev) => setFormValues((prev) => ({
                                 ...prev,
-                                email: ev.target.value,
+                                email: ev.target.value.trim().substring(0, 50).trim(),
                             }))}
                             placeholder="johndoe@example.com"
                             required
@@ -209,7 +209,7 @@ export default function SignUpCard({
                             value={formValues.password}
                             onChange={(ev) => setFormValues((prev) => ({
                                 ...prev,
-                                password: ev.target.value,
+                                password: ev.target.value.trim().substring(0, 50).trim(),
                             }))}
                             placeholder="***"
                             required

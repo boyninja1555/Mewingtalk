@@ -159,7 +159,7 @@ export default function SignInCard({
                             value={formValues.email}
                             onChange={(ev) => setFormValues((prev) => ({
                                 ...prev,
-                                email: ev.target.value,
+                                email: ev.target.value.trim().substring(0, 50).trim(),
                             }))}
                             placeholder="johndoe@example.com"
                             required
@@ -175,7 +175,7 @@ export default function SignInCard({
                             value={formValues.password}
                             onChange={(ev) => setFormValues((prev) => ({
                                 ...prev,
-                                password: ev.target.value,
+                                password: ev.target.value.trim().substring(0, 50).trim(),
                             }))}
                             placeholder="***"
                             required

@@ -110,7 +110,7 @@ export function ProfileClient2({
                             value={formValues.name}
                             onChange={(ev) => setFormValues((prev) => ({
                                 ...prev,
-                                name: ev.target.value,
+                                name: ev.target.value.trim().substring(0, 50).trim(),
                             }))}
                             placeholder="John Doe"
                             required
