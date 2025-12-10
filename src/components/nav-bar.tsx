@@ -2,12 +2,13 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
 import { redirectSignIn } from "@/components/sign-in"
 import { redirectSignUp } from "@/components/sign-up"
 import { MdMenu } from "react-icons/md"
+import { useHandleCache } from "@/lib/handle-cache"
 import { signOut, useSession } from "@/lib/auth-client"
 import SiteLogo from "@/assets/icon.png"
 
@@ -17,8 +18,14 @@ export default function NavBar({
     children: React.ReactNode
 }) {
     const router = useRouter()
+    const handleCache = useHandleCache()
     const { data: session, } = useSession()
     const [open, setOpen] = useState(false)
+    const [handle, setHandle] = useState<string | null>(null)
+
+    useEffect(() => {
+        setHandle(handleCache.get())
+    }, [handleCache])
 
     return (
         <>
@@ -40,7 +47,7 @@ export default function NavBar({
 
                     {session && (
                         <>
-                            <li><Link href="/profile">My profile</Link></li>
+                            <li><Link href={handle && `/@${handle}` || "/profile"}>My profile</Link></li>
                             <li><Button onClick={() => signOut()}>Sign out</Button></li>
                         </>
                     )}
