@@ -20,8 +20,8 @@
   "dir": "left",
   "lang": "en-US",
   "name": "Mewingtalk",
-  "start_url": "https://mewingtalk.flappygrant.com/",
-  "scope": "https://mewingtalk.flappygrant.com/",
-  "id": "https://mewingtalk.flappygrant.com/",
+  "start_url": "https://mewingtalk.netlify.app/",
+  "scope": "https://mewingtalk.netlify.app/",
+  "id": "https://mewingtalk.netlify.app/",
   "description": "Talk about mewing and post pics of your jawline"
 }
