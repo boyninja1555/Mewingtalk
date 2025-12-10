@@ -56,10 +56,6 @@ export default function NavBar({
                             code,
                         }),
                     })
-
-                    if (!response.ok)
-                        throw new Error("For some reason, cheat codes are down!")
-
                     const data = await response.json() as ApiResponse
 
                     if (!data.success || !data.data)

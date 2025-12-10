@@ -16,10 +16,6 @@ export default function Home() {
 	async function loadPosts() {
 		try {
 			const response = await fetch("/api/posts/top")
-
-			if (!response.ok)
-				throw new Error("Mewingtalk is down! Try switching off live mode for now.")
-
 			const data = await response.json() as ApiResponse
 
 			if (!data.success || !data.data)

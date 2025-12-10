@@ -34,8 +34,8 @@ const CHEAT_CODES: Record<string, string> = {
     "fever": `
         <style>
             * {
-                color: red !important;
                 background-color: yellow !important;
+                color: red !important;
             }
         </style>
     `,
@@ -50,6 +50,14 @@ const CHEAT_CODES: Record<string, string> = {
             }
         </style>
     `,
+    "1990": `
+        <style>
+            * {
+                background-color: blue !important;
+                color: yellow !important;
+            }
+        </style>
+    `
 }
 
 export async function POST(request: NextRequest) {

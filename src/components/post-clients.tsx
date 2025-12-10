@@ -40,10 +40,6 @@ export function PostCardClient({
                         id: post.authorId,
                     }),
                 })
-
-                if (!response.ok)
-                    throw new Error("Mewingtalk is down")
-
                 const data = await response.json() as ApiResponse
 
                 if (!data.success || !data.data)
@@ -113,10 +109,6 @@ export function PostCardClient1({
                     id: post.id,
                 }),
             })
-
-            if (!response.ok)
-                throw new Error("Mewingtalk is down")
-
             const data = await response.json() as ApiResponse
             setLatestResponseContext(data.context)
 

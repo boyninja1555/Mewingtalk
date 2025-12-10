@@ -51,10 +51,6 @@ export default function CreatePostCard() {
                     imageUrl: localPic.trim() == "" ? null : localPic.trim(),
                 }),
             })
-
-            if (!response.ok)
-                throw new Error("Could not create post")
-
             const data = await response.json() as ApiResponse
 
             if (!data.success || !data.data)
